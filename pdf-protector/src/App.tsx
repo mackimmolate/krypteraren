@@ -71,7 +71,7 @@ function App() {
   return (
     <div className="container">
       <h1>PDF-skydd</h1>
-      <p>Säkra dina PDF-filer direkt i din webbläsare.</p>
+      <p>Säkra dina PDF-filer med valfritt lösenord.</p>
 
       <div className="card">
         {!file ? (
