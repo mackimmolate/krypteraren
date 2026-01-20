@@ -43,7 +43,7 @@ function App() {
       setProtectedPdfUrl(url);
     } catch (err) {
       console.error(err);
-      setError('Failed to protect PDF. Please try again.');
+      setError('Misslyckades med att skydda PDF. Försök igen.');
     } finally {
       setIsProcessing(false);
     }
@@ -70,8 +70,8 @@ function App() {
 
   return (
     <div className="container">
-      <h1>PDF Protector</h1>
-      <p>Secure your PDF files instantly in your browser.</p>
+      <h1>PDF-skydd</h1>
+      <p>Säkra dina PDF-filer direkt i din webbläsare.</p>
 
       <div className="card">
         {!file ? (
@@ -83,7 +83,7 @@ function App() {
               <line x1="12" y1="18" x2="12" y2="12"></line>
               <line x1="9" y1="15" x2="15" y2="15"></line>
             </svg>
-            <p>{isDragActive ? 'Drop the PDF here...' : 'Drag & drop a PDF file here, or click to select'}</p>
+            <p>{isDragActive ? 'Släpp PDF-filen här...' : 'Dra och släpp en PDF-fil här, eller klicka för att välja'}</p>
           </div>
         ) : (
           <div className="file-preview">
@@ -103,34 +103,34 @@ function App() {
             {!protectedPdfUrl ? (
               <>
                 <div className="input-group">
-                  <label htmlFor="password">Set Password</label>
+                  <label htmlFor="password">Ange lösenord</label>
                   <input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter password..."
+                    placeholder="Skriv in lösenord..."
                   />
                 </div>
 
                 {error && <p className="error-msg">{error}</p>}
 
                 <div className="actions">
-                  <button className="btn-reset" onClick={handleReset}>Cancel</button>
+                  <button className="btn-reset" onClick={handleReset}>Avbryt</button>
                   <button
                     className="btn-primary"
                     onClick={handleProtect}
                     disabled={!password || isProcessing}
                   >
-                    {isProcessing ? 'Protecting...' : 'Protect PDF'}
+                    {isProcessing ? 'Skyddar...' : 'Skydda PDF'}
                   </button>
                 </div>
               </>
             ) : (
               <div className="actions">
-                <button className="btn-reset" onClick={handleReset}>Start Over</button>
+                <button className="btn-reset" onClick={handleReset}>Börja om</button>
                 <button className="btn-primary" onClick={handleDownload}>
-                  Download Locked PDF
+                  Ladda ner låst PDF
                 </button>
               </div>
             )}
