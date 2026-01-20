@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['vite.svg'],
       manifest: {
-        name: 'PDF Protector',
-        short_name: 'PDFLock',
-        description: 'Secure your PDF files locally',
+        name: 'PDF-skydd',
+        short_name: 'PDF-skydd',
+        description: 'Säkra dina PDF-filer lokalt',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
