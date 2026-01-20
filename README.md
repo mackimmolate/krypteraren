@@ -1,6 +1,3 @@
-# krypteraren
-Krypteringsprogram för filer
-
 ## Web App (PDF Protector)
 
 A client-side PWA to password protect PDF files.
