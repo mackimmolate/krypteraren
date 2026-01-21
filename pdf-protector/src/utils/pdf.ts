@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib-plus-encrypt';
+import { PDFDocument, PDFHeader } from 'pdf-lib-plus-encrypt';
 
 /**
  * Protects a PDF file with a password.
@@ -15,6 +15,11 @@ export async function protectPdf(file: File, password: string): Promise<Uint8Arr
   // Encrypt the document
   // We set both the user password (required to open) and owner password (required to change permissions)
   // to the same value, as the requirement implies simple access control.
+
+  // Force upgrade to PDF 1.7 to enable AES-128 encryption (modern standard)
+  // The library uses the document header version to determine encryption level.
+  pdfDoc.context.header = PDFHeader.forVersion(1, 7);
+
   pdfDoc.encrypt({
     userPassword: password,
     ownerPassword: password,
