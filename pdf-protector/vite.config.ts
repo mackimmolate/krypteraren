@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,6 +14,7 @@ export default defineConfig({
         name: 'PDF-skydd',
         short_name: 'PDF-skydd',
         description: 'Säkra dina PDF-filer lokalt',
+        lang: 'sv',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
@@ -22,16 +23,16 @@ export default defineConfig({
             src: 'icon.svg',
             sizes: '192x192',
             type: 'image/svg+xml',
-            purpose: 'any maskable'
+            purpose: 'any maskable',
           },
           {
             src: 'icon.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
-            purpose: 'any maskable'
-          }
-        ]
-      }
-    })
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
   ],
-})
+});

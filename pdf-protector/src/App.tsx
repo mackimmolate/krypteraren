@@ -1,7 +1,10 @@
-import { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState, useCallback, useEffect } from 'react';
+import { useDropzone, type FileRejection } from 'react-dropzone';
 import { protectPdf } from './utils/pdf';
 import './App.css';
+
+const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = 25;
 
 function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -10,24 +13,69 @@ function App() {
   const [protectedPdfUrl, setProtectedPdfUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const revokeProtectedUrl = useCallback(() => {
+    if (protectedPdfUrl) {
+      URL.revokeObjectURL(protectedPdfUrl);
+    }
+  }, [protectedPdfUrl]);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setError(null);
-    setProtectedPdfUrl(null);
     setPassword('');
+    revokeProtectedUrl();
+    setProtectedPdfUrl(null);
 
     if (acceptedFiles.length > 0) {
       setFile(acceptedFiles[0]);
     }
-  }, []);
+  }, [revokeProtectedUrl]);
+
+  const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
+    revokeProtectedUrl();
+    setProtectedPdfUrl(null);
+    setFile(null);
+    setPassword('');
+
+    if (fileRejections.length === 0) {
+      setError('Kunde inte läsa filen. Försök igen.');
+      return;
+    }
+
+    const [{ errors }] = fileRejections;
+    const sizeError = errors.find((rejection) => rejection.code === 'file-too-large');
+    const typeError = errors.find((rejection) => rejection.code === 'file-invalid-type');
+
+    if (sizeError) {
+      setError(`Filen är för stor. Max ${MAX_FILE_SIZE_MB} MB.`);
+      return;
+    }
+
+    if (typeError) {
+      setError('Endast PDF-filer stöds.');
+      return;
+    }
+
+    setError('Kunde inte läsa filen. Försök igen.');
+  }, [revokeProtectedUrl]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected,
     accept: {
       'application/pdf': ['.pdf'],
     },
     maxFiles: 1,
     multiple: false,
+    maxSize: MAX_FILE_SIZE_BYTES,
   });
+
+  useEffect(() => {
+    return () => {
+      if (protectedPdfUrl) {
+        URL.revokeObjectURL(protectedPdfUrl);
+      }
+    };
+  }, [protectedPdfUrl]);
 
   const handleProtect = async () => {
     if (!file || !password) return;
@@ -39,6 +87,9 @@ function App() {
       const protectedBytes = await protectPdf(file, password);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const blob = new Blob([protectedBytes as any], { type: 'application/pdf' });
+      if (protectedPdfUrl) {
+        URL.revokeObjectURL(protectedPdfUrl);
+      }
       const url = URL.createObjectURL(blob);
       setProtectedPdfUrl(url);
     } catch (err) {
@@ -64,6 +115,7 @@ function App() {
   const handleReset = () => {
     setFile(null);
     setPassword('');
+    revokeProtectedUrl();
     setProtectedPdfUrl(null);
     setError(null);
   };
@@ -84,6 +136,8 @@ function App() {
               <line x1="9" y1="15" x2="15" y2="15"></line>
             </svg>
             <p>{isDragActive ? 'Släpp PDF-filen här...' : 'Dra och släpp en PDF-fil här, eller klicka för att välja'}</p>
+            <p className="hint">Max {MAX_FILE_SIZE_MB} MB.</p>
+            {error && <p className="error-msg">{error}</p>}
           </div>
         ) : (
           <div className="file-preview">
