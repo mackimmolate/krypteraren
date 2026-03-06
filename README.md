@@ -1,8 +1,8 @@
-## PDF Protector
+## PDF-skydd
 
 This repository contains a browser-based app for adding an open password to a PDF locally on the user's device.
 
-Project location: `pdf-protector/`
+Project location: `pdf-skydd/`
 
 ### What the app does
 
@@ -21,7 +21,7 @@ Project location: `pdf-protector/`
 ### Development
 
 ```bash
-cd pdf-protector
+cd pdf-skydd
 npm ci
 npm run dev
 ```
@@ -29,7 +29,7 @@ npm run dev
 ### Verification
 
 ```bash
-cd pdf-protector
+cd pdf-skydd
 npm run lint
 npm test
 npm run build

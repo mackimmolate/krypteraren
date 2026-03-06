@@ -73,6 +73,6 @@ npm run dev
 
 ## Deploy
 
-GitHub Actions bygger projektet och publicerar `pdf-protector/dist` till `gh-pages`.
+GitHub Actions bygger projektet och publicerar `pdf-skydd/dist` till GitHub Pages via den officiella Pages-deploykedjan.
 
-CI använder låst installation via `npm ci` för reproducerbara byggen.
+I repository-inställningarna för Pages ska källan vara satt till `GitHub Actions`.
