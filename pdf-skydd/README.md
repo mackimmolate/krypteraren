@@ -76,3 +76,9 @@ npm run dev
 GitHub Actions bygger projektet och publicerar `pdf-skydd/dist` till GitHub Pages via den officiella Pages-deploykedjan.
 
 I repository-inställningarna för Pages ska källan vara satt till `GitHub Actions`.
+
+## Versionering
+
+Versionspolicyn finns i [`../VERSIONING.md`](../VERSIONING.md).
+
+Versionshistoriken finns i [`../CHANGELOG.md`](../CHANGELOG.md).

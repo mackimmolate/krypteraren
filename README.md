@@ -34,3 +34,8 @@ npm run lint
 npm test
 npm run build
 ```
+
+### Versioning
+
+- [VERSIONING.md](VERSIONING.md)
+- [CHANGELOG.md](CHANGELOG.md)
